@@ -1,1 +1,1 @@
-# go-chat-room (wip)
+#Go: Real Time Chat Application (wip)
