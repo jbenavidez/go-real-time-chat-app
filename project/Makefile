@@ -1,8 +1,9 @@
 FRONT_END=frontEndApp
+BACK_END=backEndApp
 
 
 ## up_build: build project and run contianer
-up_build: build_frontend 
+up_build: build_frontend build_backend
 
 	@echo "Starting Docker images..."
 	docker-compose up 
@@ -15,3 +16,7 @@ build_frontend:
 	@echo "Done!"
 
 
+build_backend:
+	@echo "Building front end  binary..."
+	cd ../back-end && env GOOS=linux CGO_ENABLED=0 go build -o ${BACK_END} ./cmd/api
+	@echo "Done!"
