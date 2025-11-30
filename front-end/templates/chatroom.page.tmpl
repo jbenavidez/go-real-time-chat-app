@@ -219,21 +219,7 @@ a:hover, a:active, a:focus {
 
                 <!-- =============================================================== -->
                 <!-- member list -->
-                <ul class="friend-list">
-                    <li class="active bounceInDown">
-                        <a href="#" class="clearfix">
-                            <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
-                            <div class="friend-name">
-                                <strong>John Doe</strong>
-                            </div>
-                      
-                            
-                        </a>
-                    </li>
-             
-                
-                
-               
+                <ul class="friend-list" id="online_users">
                 </ul>
             </div>
 
@@ -396,17 +382,43 @@ a:hover, a:active, a:focus {
         }
 
        socket.onmessage = msg => {
-            let data = JSON.parse(msg.data);
-            console.log("the data", data);
+           let data = JSON.parse(msg.data);
+           console.log("the data", data);
+           switch (data.action) {
+               case "online_users":
+                   var ul = document.getElementById("online_users");
+                   while (ul.firstChild) ul.removeChild(ul.firstChild); // remove child
 
-        }
+                   var connectedUsers = data.connected_users
+                   if (connectedUsers.length > 0) {
+                        for (let i = 0; i < connectedUsers.length; i++) { 
+                           if (connectedUsers[i].length > 0){
+                                  var liItem =  '<li class="active bounceInDown">'+
+                                              '<a  href="#" class="clearfix">'+
+                                              '<img src="/static/img/p1.png" alt="" class="img-circle">'+
+                                              '<div class="friend-name">'+
+                                              '<strong>'+connectedUsers[i]+'</strong>' +
+                                              '</div>' +
+                                              '</a>'+
+                                              '</li>'
+                                ul.innerHTML += liItem
+                           }
+                         
 
+                          }
+
+                    }
+
+           }
+       }
      usernameFormField.addEventListener("change", function () {
             let jsonData = {};
             jsonData["action"] = "username";
             jsonData["username"] = this.value;
             socket.send(JSON.stringify(jsonData));
         })
+
+     
       })
   </script>
 

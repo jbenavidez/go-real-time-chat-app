@@ -27,6 +27,7 @@ func ListenForWs(conn *WebSocketConnection) {
 }
 
 func ListenToWsChannel() {
+	var response WsJsonResponse
 
 	for {
 		e := <-wsChan // read paylod from channel
@@ -34,6 +35,35 @@ func ListenToWsChannel() {
 		switch e.Action {
 		case "username":
 			fmt.Println("the payload", e)
+			//add user to online list
+			clients[e.Conn] = e.Username
+			users := GetOnlineusers()
+			//update user list on front-end
+			response.Action = "online_users"
+			response.ConnectedUser = users
+			broadcastToAllConn(response)
+
+		}
+	}
+}
+
+func GetOnlineusers() []string {
+	var users []string
+	for _, user := range clients {
+		users = append(users, user)
+	}
+	return users
+}
+
+func broadcastToAllConn(response WsJsonResponse) {
+
+	for client := range clients {
+		err := client.WriteJSON(response)
+
+		if err != nil {
+			log.Println("WS eerr", err)
+			_ = client.Close()
+			delete(clients, client) // remove  from who is active tab
 		}
 	}
 }
