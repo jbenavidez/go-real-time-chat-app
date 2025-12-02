@@ -1,0 +1,23 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+package proto;
+
+
+option go_package = "./"; 
+
+message chatMessage{
+    int64 id = 1;
+    string content =2;
+    
+}
+
+message GetAllChatMessagesResponse{
+    repeated chatMessage  result = 1;
+
+}
+
+service ChatMessagesService {
+  rpc GetAllChatMessages(google.protobuf.Empty) returns (GetAllChatMessagesResponse);
+}
