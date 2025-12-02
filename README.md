@@ -6,7 +6,7 @@ Real-time chat application built on GO that allows users to send and receive mes
  ## Services descriptions
 *   **back-end-service**: contains the Websocket that the front-end uses in the chat-room
 *   **front-end-service**: Serve the front-end templates
-*   **broker-service**: crud chat_message db (wip)
+*   **broker-service**: crud service (wip)
  
 
 ### Stack
