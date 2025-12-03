@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"frontend/internal/config"
+	"frontend/internal/models"
 	"html/template"
 	"log"
 	"net/http"
@@ -21,7 +22,11 @@ func NewRenderer(a *config.AppConfig) {
 	app = a
 }
 
-func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string) {
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	return td
+}
+
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
 
 	if app.UseCache {
@@ -37,8 +42,8 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string) {
 	}
 
 	buf := new(bytes.Buffer)
-
-	_ = t.Execute(buf, nil)
+	td = AddDefaultData(td, r)
+	_ = t.Execute(buf, td)
 
 	_, err := buf.WriteTo(w)
 	if err != nil {

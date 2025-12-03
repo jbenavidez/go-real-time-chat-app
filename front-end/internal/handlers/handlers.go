@@ -1,9 +1,13 @@
 package handlers
 
 import (
+	"fmt"
 	"frontend/internal/config"
+	"frontend/internal/models"
 	"frontend/internal/render"
 	"net/http"
+
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type Repository struct {
@@ -24,6 +28,17 @@ func NewHandlers(r *Repository) {
 
 // ChatRoom is the handler for the chatroom page
 func (m *Repository) ChatRoom(w http.ResponseWriter, r *http.Request) {
-
-	render.RenderTemplate(w, r, "chatroom.page.tmpl")
+	fmt.Println("getting message from grpc")
+	response, err := m.App.GRPCClient.GetAllChatMessages(r.Context(), &emptypb.Empty{})
+	if err != nil {
+		fmt.Println("something break", err)
+		fmt.Fprint(w, err)
+		return
+	}
+	fmt.Println("the responses", response.Result)
+	data := make(map[string]any)
+	data["messsages"] = response.Result
+	render.RenderTemplate(w, r, "chatroom.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
 }

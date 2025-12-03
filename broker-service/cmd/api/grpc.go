@@ -42,6 +42,12 @@ func (app *Config) gRPCListenAndServe() {
 }
 
 func (s *server) GetAllChatMessages(ctx context.Context, request *emptypb.Empty) (*pb.GetAllChatMessagesResponse, error) {
-
-	return &pb.GetAllChatMessagesResponse{Result: nil}, nil
+	// test
+	var allMessages []*pb.ChatMessage
+	testMessage := pb.ChatMessage{
+		Id:      1,
+		Content: "hello there",
+	}
+	allMessages = append(allMessages, &testMessage)
+	return &pb.GetAllChatMessagesResponse{Result: allMessages}, nil
 }
