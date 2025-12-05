@@ -8,4 +8,5 @@ import (
 type DatabaseRepo interface {
 	Connection() *sql.DB
 	AllChatMessages() ([]*pb.ChatMessage, error)
+	CreateMessage(msg *pb.ChatMessage) (int, error)
 }

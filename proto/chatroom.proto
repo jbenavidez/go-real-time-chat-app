@@ -18,6 +18,18 @@ message GetAllChatMessagesResponse{
 
 }
 
+
+message CreateChatMessageRequest {
+    chatMessage payload = 1;
+
+}
+
+message CreateChatMessageResponse { 
+  string result = 1; 
+}
+
+
 service ChatMessagesService {
   rpc GetAllChatMessages(google.protobuf.Empty) returns (GetAllChatMessagesResponse);
+  rpc CreateChatMessage(CreateChatMessageRequest) returns (CreateChatMessageResponse);
 }

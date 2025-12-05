@@ -134,6 +134,94 @@ func (x *GetAllChatMessagesResponse) GetResult() []*ChatMessage {
 	return nil
 }
 
+type CreateChatMessageRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Payload       *ChatMessage           `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateChatMessageRequest) Reset() {
+	*x = CreateChatMessageRequest{}
+	mi := &file_chatroom_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateChatMessageRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateChatMessageRequest) ProtoMessage() {}
+
+func (x *CreateChatMessageRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_chatroom_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateChatMessageRequest.ProtoReflect.Descriptor instead.
+func (*CreateChatMessageRequest) Descriptor() ([]byte, []int) {
+	return file_chatroom_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CreateChatMessageRequest) GetPayload() *ChatMessage {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
+type CreateChatMessageResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Result        string                 `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateChatMessageResponse) Reset() {
+	*x = CreateChatMessageResponse{}
+	mi := &file_chatroom_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateChatMessageResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateChatMessageResponse) ProtoMessage() {}
+
+func (x *CreateChatMessageResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_chatroom_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateChatMessageResponse.ProtoReflect.Descriptor instead.
+func (*CreateChatMessageResponse) Descriptor() ([]byte, []int) {
+	return file_chatroom_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CreateChatMessageResponse) GetResult() string {
+	if x != nil {
+		return x.Result
+	}
+	return ""
+}
+
 var File_chatroom_proto protoreflect.FileDescriptor
 
 const file_chatroom_proto_rawDesc = "" +
@@ -146,9 +234,14 @@ const file_chatroom_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x04 \x01(\tR\tcreatedAt\"V\n" +
 	"\x1aGetAllChatMessagesResponse\x128\n" +
-	"\x06result\x18\x01 \x03(\v2 .myproject.customers.chatMessageR\x06result2t\n" +
+	"\x06result\x18\x01 \x03(\v2 .myproject.customers.chatMessageR\x06result\"V\n" +
+	"\x18CreateChatMessageRequest\x12:\n" +
+	"\apayload\x18\x01 \x01(\v2 .myproject.customers.chatMessageR\apayload\"3\n" +
+	"\x19CreateChatMessageResponse\x12\x16\n" +
+	"\x06result\x18\x01 \x01(\tR\x06result2\xe8\x01\n" +
 	"\x13ChatMessagesService\x12]\n" +
-	"\x12GetAllChatMessages\x12\x16.google.protobuf.Empty\x1a/.myproject.customers.GetAllChatMessagesResponseB\x04Z\x02./b\x06proto3"
+	"\x12GetAllChatMessages\x12\x16.google.protobuf.Empty\x1a/.myproject.customers.GetAllChatMessagesResponse\x12r\n" +
+	"\x11CreateChatMessage\x12-.myproject.customers.CreateChatMessageRequest\x1a..myproject.customers.CreateChatMessageResponseB\x04Z\x02./b\x06proto3"
 
 var (
 	file_chatroom_proto_rawDescOnce sync.Once
@@ -162,21 +255,26 @@ func file_chatroom_proto_rawDescGZIP() []byte {
 	return file_chatroom_proto_rawDescData
 }
 
-var file_chatroom_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_chatroom_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_chatroom_proto_goTypes = []any{
 	(*ChatMessage)(nil),                // 0: myproject.customers.chatMessage
 	(*GetAllChatMessagesResponse)(nil), // 1: myproject.customers.GetAllChatMessagesResponse
-	(*emptypb.Empty)(nil),              // 2: google.protobuf.Empty
+	(*CreateChatMessageRequest)(nil),   // 2: myproject.customers.CreateChatMessageRequest
+	(*CreateChatMessageResponse)(nil),  // 3: myproject.customers.CreateChatMessageResponse
+	(*emptypb.Empty)(nil),              // 4: google.protobuf.Empty
 }
 var file_chatroom_proto_depIdxs = []int32{
 	0, // 0: myproject.customers.GetAllChatMessagesResponse.result:type_name -> myproject.customers.chatMessage
-	2, // 1: myproject.customers.ChatMessagesService.GetAllChatMessages:input_type -> google.protobuf.Empty
-	1, // 2: myproject.customers.ChatMessagesService.GetAllChatMessages:output_type -> myproject.customers.GetAllChatMessagesResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 1: myproject.customers.CreateChatMessageRequest.payload:type_name -> myproject.customers.chatMessage
+	4, // 2: myproject.customers.ChatMessagesService.GetAllChatMessages:input_type -> google.protobuf.Empty
+	2, // 3: myproject.customers.ChatMessagesService.CreateChatMessage:input_type -> myproject.customers.CreateChatMessageRequest
+	1, // 4: myproject.customers.ChatMessagesService.GetAllChatMessages:output_type -> myproject.customers.GetAllChatMessagesResponse
+	3, // 5: myproject.customers.ChatMessagesService.CreateChatMessage:output_type -> myproject.customers.CreateChatMessageResponse
+	4, // [4:6] is the sub-list for method output_type
+	2, // [2:4] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_chatroom_proto_init() }
@@ -190,7 +288,7 @@ func file_chatroom_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_chatroom_proto_rawDesc), len(file_chatroom_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

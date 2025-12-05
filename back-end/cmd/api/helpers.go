@@ -1,9 +1,17 @@
 package main
 
 import (
+	pb "backend/proto/generated"
+	"context"
 	"fmt"
 	"log"
 )
+
+var app *Application
+
+func NewGrpcHelpers(a *Application) {
+	app = a
+}
 
 func ListenForWs(conn *WebSocketConnection) {
 	defer func() {
@@ -30,7 +38,7 @@ func ListenToWsChannel() {
 	var response WsJsonResponse
 
 	for {
-		e := <-wsChan // read paylod from channel
+		e := <-wsChan // read payload from channel
 		fmt.Println("listning fo webhook event")
 		switch e.Action {
 
@@ -48,6 +56,13 @@ func ListenToWsChannel() {
 			response.Action = "chat_message"
 			// set message
 			response.Message = fmt.Sprintf("<b>%s</b>: %s", e.Username, e.Message)
+			// Store message on db
+			err := SaveMessage(e)
+
+			if err != nil {
+				fmt.Println("something break", err)
+
+			}
 			broadcastToAllConn(response)
 		}
 	}
@@ -72,4 +87,24 @@ func broadcastToAllConn(response WsJsonResponse) {
 			delete(clients, client) // remove  from who is active tab
 		}
 	}
+}
+
+func SaveMessage(e WsPayload) error {
+	// set message
+	message := &pb.ChatMessage{
+		Username: e.Username,
+		Content:  e.Message,
+	}
+	//set request
+	req := &pb.CreateChatMessageRequest{
+		Payload: message,
+	}
+	//send reques to gRPC
+	_, err := app.GRPCClient.CreateChatMessage(context.Background(), req)
+	if err != nil {
+		fmt.Println("something break", err)
+		return err
+
+	}
+	return nil
 }

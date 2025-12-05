@@ -39,7 +39,7 @@ var upgradeConnection = websocket.Upgrader{
 	},
 }
 
-func (app *application) writeJSON(w http.ResponseWriter, status int, data any, headers ...http.Header) error {
+func (app *Application) writeJSON(w http.ResponseWriter, status int, data any, headers ...http.Header) error {
 
 	out, err := json.Marshal(data)
 

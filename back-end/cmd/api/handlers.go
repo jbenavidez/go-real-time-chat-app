@@ -10,7 +10,7 @@ var wsChan = make(chan WsPayload)
 
 var clients = make(map[WebSocketConnection]string)
 
-func (app *application) Tester(w http.ResponseWriter, r *http.Request) {
+func (app *Application) Tester(w http.ResponseWriter, r *http.Request) {
 	resp := JSONResponse{
 		Error:   false,
 		Message: "Welcome",
@@ -18,7 +18,7 @@ func (app *application) Tester(w http.ResponseWriter, r *http.Request) {
 	_ = app.writeJSON(w, http.StatusOK, resp)
 }
 
-func (app *application) WsChatRoom(w http.ResponseWriter, r *http.Request) {
+func (app *Application) WsChatRoom(w http.ResponseWriter, r *http.Request) {
 	ws, err := upgradeConnection.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)

@@ -48,3 +48,26 @@ func (m *PostgresDBRepo) AllChatMessages() ([]*pb.ChatMessage, error) {
 	}
 	return chatMessages, nil
 }
+
+func (m *PostgresDBRepo) CreateMessage(msg *pb.ChatMessage) (int, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+	stmt := `
+			insert into chat_messages
+				(content, username, created_at)
+			values	
+				($1,$2, $3) 
+			returning id
+	`
+	var NewID int
+	err := m.DB.QueryRowContext(ctx, stmt,
+		msg.Content,
+		msg.Username,
+		time.Now(),
+	).Scan(&NewID)
+	if err != nil {
+		return 0, err
+	}
+	return NewID, nil
+
+}

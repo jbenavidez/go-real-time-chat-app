@@ -53,3 +53,16 @@ func (s *server) GetAllChatMessages(ctx context.Context, request *emptypb.Empty)
 	allMessages = append(allMessages, &testMessage)
 	return &pb.GetAllChatMessagesResponse{Result: allMessages}, nil
 }
+
+func (s *server) CreateChatMessage(ctx context.Context, request *pb.CreateChatMessageRequest) (*pb.CreateChatMessageResponse, error) {
+	// get the msg from request
+	theMessage := request.Payload
+	// store the msg
+	_, err := app.DB.CreateMessage(theMessage)
+	if err != nil {
+		return nil, err
+	}
+	//send response
+	return &pb.CreateChatMessageResponse{Result: "message created"}, nil
+
+}

@@ -6,7 +6,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func (a *application) routes() http.Handler {
+func (a *Application) routes() http.Handler {
 	mux := chi.NewRouter()
 
 	mux.Get("/test", a.Tester)

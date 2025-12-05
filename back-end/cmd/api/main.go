@@ -12,13 +12,13 @@ import (
 
 const port = 8080
 
-type application struct {
+type Application struct {
 	GRPCClient pb.ChatMessagesServiceClient
 }
 
 func main() {
 	fmt.Println("starting back end.......")
-	var app application
+	var app Application
 	// listten to websocket channel
 	go ListenToWsChannel()
 	//set gRPC connection
@@ -29,7 +29,9 @@ func main() {
 	//set gRPC Client
 	client := pb.NewChatMessagesServiceClient(conn)
 	app.GRPCClient = client
-
+	//set up helper
+	NewGrpcHelpers(&app)
+	//set up server
 	log.Println("Starting back-end on port ", port)
 	err = http.ListenAndServe(fmt.Sprintf(":%d", port), app.routes())
 	if err != nil {
