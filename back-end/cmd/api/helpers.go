@@ -50,6 +50,11 @@ func ListenToWsChannel() {
 			//update user list on front-end
 			response.Action = "online_users"
 			response.ConnectedUser = users
+			// add username to cache
+			err := AddUserToCache(e.Username)
+			if err != nil {
+				fmt.Println("err while adding username to cache", err)
+			}
 			broadcastToAllConn(response)
 
 		case "chat_message":
@@ -87,6 +92,19 @@ func broadcastToAllConn(response WsJsonResponse) {
 			delete(clients, client) // remove  from who is active tab
 		}
 	}
+}
+
+func AddUserToCache(u string) error {
+	// set req
+	req := &pb.AddUserNameToCacheRequest{
+		Username: u,
+	}
+	//send to gRPC
+	_, err := app.GRPCClient.AddUserNameToCache(context.Background(), req)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func SaveMessage(e WsPayload) error {

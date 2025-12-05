@@ -3,11 +3,14 @@ package main
 import (
 	pb "broker/proto/generated"
 	"context"
+	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"net"
+	"slices"
 
-	"github.com/golang-jwt/jwt/v4/request"
+	"github.com/go-redis/redis/v8"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -64,8 +67,52 @@ func (s *server) CreateChatMessage(ctx context.Context, request *pb.CreateChatMe
 
 }
 
-func (s *server) AddUserNameToCache(context.Context, *pb.AddUserNameToCacheRequest) (*pb.AddUserNameToCacheResponse, error) {
+func (s *server) AddUserNameToCache(ctx context.Context, request *pb.AddUserNameToCacheRequest) (*pb.AddUserNameToCacheResponse, error) {
 	theUsername := request.Username
-	fmt.Println("the user to cache isss", theUsername)
+	// Get username-list
+	var usernameList []string
+
+	//get slide of username
+	resp, err := app.RDB.Get(ctx, "users_online").Bytes()
+	if errors.Is(err, redis.Nil) {
+		fmt.Println("key was not found which mean no user conencted")
+		//set userlist
+		users_online := []string{theUsername}
+		payload, err := json.Marshal(users_online)
+		if err != nil {
+			fmt.Println("error marshaling user_online", err)
+			return nil, err
+		}
+		//set key
+		err = app.RDB.Set(ctx, "users_online", payload, 0).Err()
+		if err != nil {
+			fmt.Println("error setting key")
+			return nil, err
+		}
+
+		return &pb.AddUserNameToCacheResponse{Result: "username added"}, nil
+	}
+	//Unmarshal
+	err = json.Unmarshal(resp, &usernameList)
+	if err != nil {
+		fmt.Println("error unmarshalling", err)
+	}
+	if slices.Contains(usernameList, theUsername) {
+		fmt.Println()
+	}
+	fmt.Println("the_usernameList", usernameList)
+	//update cache
+	usernameList = append(usernameList, theUsername)
+	req, err := json.Marshal(usernameList)
+	if err != nil {
+		fmt.Println("error marshaling usernameList", err)
+		return nil, err
+	}
+	err = app.RDB.Set(ctx, "users_online", req, 0).Err()
+	if err != nil {
+		fmt.Println("error setting key")
+		return nil, err
+	}
+
 	return &pb.AddUserNameToCacheResponse{Result: "username added"}, nil
 }
