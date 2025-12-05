@@ -23,7 +23,7 @@ func (m *PostgresDBRepo) AllChatMessages() ([]*pb.ChatMessage, error) {
 	defer cancel()
 	query := `
 		select
-			id, content
+			id, content, username, created_at
 		from
 			chat_messages
 	`
@@ -39,6 +39,8 @@ func (m *PostgresDBRepo) AllChatMessages() ([]*pb.ChatMessage, error) {
 		err := rows.Scan(
 			&chatMessage.Id,
 			&chatMessage.Content,
+			&chatMessage.Username,
+			&chatMessage.CreatedAt,
 		)
 		if err != nil {
 			fmt.Println(err)
