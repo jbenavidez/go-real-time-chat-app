@@ -68,7 +68,12 @@ func ListenToWsChannel() {
 
 			}
 			broadcastToAllConn(response)
-			break
+		case "left":
+			response.Action = "online_users"
+			delete(clients, e.Conn)
+			users := GetOnlineusers()
+			response.ConnectedUser = users
+			broadcastToAllConn(response)
 		}
 	}
 }
