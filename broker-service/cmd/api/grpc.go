@@ -136,3 +136,10 @@ func (s *server) GetAllConnectedusers(ctx context.Context, request *emptypb.Empt
 	}
 	return &pb.GetAllConnectedusersResponse{Result: usernameList}, nil
 }
+
+func (s *server) RefreshConnectedusers(ctx context.Context, request *pb.DeleteUserNameFromCacheRequest) (*pb.GetAllConnectedusersResponse, error) {
+	var usernameList []string
+	toDelUser := request.Username
+	fmt.Println("remove user from cache", toDelUser)
+	return &pb.GetAllConnectedusersResponse{Result: usernameList}, nil
+}

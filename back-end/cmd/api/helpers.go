@@ -68,12 +68,19 @@ func ListenToWsChannel() {
 
 			}
 			broadcastToAllConn(response)
+
 		case "left":
 			response.Action = "online_users"
 			delete(clients, e.Conn)
 			users := GetOnlineusers()
 			response.ConnectedUser = users
 			broadcastToAllConn(response)
+			// refresh cache
+			err := RefreshCache(e)
+			if err != nil {
+				fmt.Println("something break", err)
+
+			}
 		}
 	}
 }
@@ -124,6 +131,20 @@ func SaveMessage(e WsPayload) error {
 	}
 	//send reques to gRPC
 	_, err := app.GRPCClient.CreateChatMessage(context.Background(), req)
+	if err != nil {
+		fmt.Println("something break", err)
+		return err
+
+	}
+	return nil
+}
+
+func RefreshCache(e WsPayload) error {
+	req := &pb.DeleteUserNameFromCacheRequest{
+		Username: e.Username,
+	}
+	// send request
+	_, err := app.GRPCClient.RefreshConnectedusers(context.Background(), req)
 	if err != nil {
 		fmt.Println("something break", err)
 		return err

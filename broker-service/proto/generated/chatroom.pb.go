@@ -354,6 +354,50 @@ func (x *GetAllConnectedusersResponse) GetResult() []string {
 	return nil
 }
 
+type DeleteUserNameFromCacheRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteUserNameFromCacheRequest) Reset() {
+	*x = DeleteUserNameFromCacheRequest{}
+	mi := &file_chatroom_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteUserNameFromCacheRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUserNameFromCacheRequest) ProtoMessage() {}
+
+func (x *DeleteUserNameFromCacheRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_chatroom_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUserNameFromCacheRequest.ProtoReflect.Descriptor instead.
+func (*DeleteUserNameFromCacheRequest) Descriptor() ([]byte, []int) {
+	return file_chatroom_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DeleteUserNameFromCacheRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
 var File_chatroom_proto protoreflect.FileDescriptor
 
 const file_chatroom_proto_rawDesc = "" +
@@ -376,12 +420,15 @@ const file_chatroom_proto_rawDesc = "" +
 	"\x1aAddUserNameToCacheResponse\x12\x16\n" +
 	"\x06result\x18\x01 \x01(\tR\x06result\"6\n" +
 	"\x1cGetAllConnectedusersResponse\x12\x16\n" +
-	"\x06result\x18\x01 \x03(\tR\x06result2\xc2\x03\n" +
+	"\x06result\x18\x01 \x03(\tR\x06result\"<\n" +
+	"\x1eDeleteUserNameFromCacheRequest\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername2\xc3\x04\n" +
 	"\x13ChatMessagesService\x12]\n" +
 	"\x12GetAllChatMessages\x12\x16.google.protobuf.Empty\x1a/.myproject.customers.GetAllChatMessagesResponse\x12r\n" +
 	"\x11CreateChatMessage\x12-.myproject.customers.CreateChatMessageRequest\x1a..myproject.customers.CreateChatMessageResponse\x12u\n" +
 	"\x12AddUserNameToCache\x12..myproject.customers.AddUserNameToCacheRequest\x1a/.myproject.customers.AddUserNameToCacheResponse\x12a\n" +
-	"\x14GetAllConnectedusers\x12\x16.google.protobuf.Empty\x1a1.myproject.customers.GetAllConnectedusersResponseB\x04Z\x02./b\x06proto3"
+	"\x14GetAllConnectedusers\x12\x16.google.protobuf.Empty\x1a1.myproject.customers.GetAllConnectedusersResponse\x12\x7f\n" +
+	"\x15RefreshConnectedusers\x123.myproject.customers.DeleteUserNameFromCacheRequest\x1a1.myproject.customers.GetAllConnectedusersResponseB\x04Z\x02./b\x06proto3"
 
 var (
 	file_chatroom_proto_rawDescOnce sync.Once
@@ -395,30 +442,33 @@ func file_chatroom_proto_rawDescGZIP() []byte {
 	return file_chatroom_proto_rawDescData
 }
 
-var file_chatroom_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_chatroom_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_chatroom_proto_goTypes = []any{
-	(*ChatMessage)(nil),                  // 0: myproject.customers.chatMessage
-	(*GetAllChatMessagesResponse)(nil),   // 1: myproject.customers.GetAllChatMessagesResponse
-	(*CreateChatMessageRequest)(nil),     // 2: myproject.customers.CreateChatMessageRequest
-	(*CreateChatMessageResponse)(nil),    // 3: myproject.customers.CreateChatMessageResponse
-	(*AddUserNameToCacheRequest)(nil),    // 4: myproject.customers.AddUserNameToCacheRequest
-	(*AddUserNameToCacheResponse)(nil),   // 5: myproject.customers.AddUserNameToCacheResponse
-	(*GetAllConnectedusersResponse)(nil), // 6: myproject.customers.GetAllConnectedusersResponse
-	(*emptypb.Empty)(nil),                // 7: google.protobuf.Empty
+	(*ChatMessage)(nil),                    // 0: myproject.customers.chatMessage
+	(*GetAllChatMessagesResponse)(nil),     // 1: myproject.customers.GetAllChatMessagesResponse
+	(*CreateChatMessageRequest)(nil),       // 2: myproject.customers.CreateChatMessageRequest
+	(*CreateChatMessageResponse)(nil),      // 3: myproject.customers.CreateChatMessageResponse
+	(*AddUserNameToCacheRequest)(nil),      // 4: myproject.customers.AddUserNameToCacheRequest
+	(*AddUserNameToCacheResponse)(nil),     // 5: myproject.customers.AddUserNameToCacheResponse
+	(*GetAllConnectedusersResponse)(nil),   // 6: myproject.customers.GetAllConnectedusersResponse
+	(*DeleteUserNameFromCacheRequest)(nil), // 7: myproject.customers.DeleteUserNameFromCacheRequest
+	(*emptypb.Empty)(nil),                  // 8: google.protobuf.Empty
 }
 var file_chatroom_proto_depIdxs = []int32{
 	0, // 0: myproject.customers.GetAllChatMessagesResponse.result:type_name -> myproject.customers.chatMessage
 	0, // 1: myproject.customers.CreateChatMessageRequest.payload:type_name -> myproject.customers.chatMessage
-	7, // 2: myproject.customers.ChatMessagesService.GetAllChatMessages:input_type -> google.protobuf.Empty
+	8, // 2: myproject.customers.ChatMessagesService.GetAllChatMessages:input_type -> google.protobuf.Empty
 	2, // 3: myproject.customers.ChatMessagesService.CreateChatMessage:input_type -> myproject.customers.CreateChatMessageRequest
 	4, // 4: myproject.customers.ChatMessagesService.AddUserNameToCache:input_type -> myproject.customers.AddUserNameToCacheRequest
-	7, // 5: myproject.customers.ChatMessagesService.GetAllConnectedusers:input_type -> google.protobuf.Empty
-	1, // 6: myproject.customers.ChatMessagesService.GetAllChatMessages:output_type -> myproject.customers.GetAllChatMessagesResponse
-	3, // 7: myproject.customers.ChatMessagesService.CreateChatMessage:output_type -> myproject.customers.CreateChatMessageResponse
-	5, // 8: myproject.customers.ChatMessagesService.AddUserNameToCache:output_type -> myproject.customers.AddUserNameToCacheResponse
-	6, // 9: myproject.customers.ChatMessagesService.GetAllConnectedusers:output_type -> myproject.customers.GetAllConnectedusersResponse
-	6, // [6:10] is the sub-list for method output_type
-	2, // [2:6] is the sub-list for method input_type
+	8, // 5: myproject.customers.ChatMessagesService.GetAllConnectedusers:input_type -> google.protobuf.Empty
+	7, // 6: myproject.customers.ChatMessagesService.RefreshConnectedusers:input_type -> myproject.customers.DeleteUserNameFromCacheRequest
+	1, // 7: myproject.customers.ChatMessagesService.GetAllChatMessages:output_type -> myproject.customers.GetAllChatMessagesResponse
+	3, // 8: myproject.customers.ChatMessagesService.CreateChatMessage:output_type -> myproject.customers.CreateChatMessageResponse
+	5, // 9: myproject.customers.ChatMessagesService.AddUserNameToCache:output_type -> myproject.customers.AddUserNameToCacheResponse
+	6, // 10: myproject.customers.ChatMessagesService.GetAllConnectedusers:output_type -> myproject.customers.GetAllConnectedusersResponse
+	6, // 11: myproject.customers.ChatMessagesService.RefreshConnectedusers:output_type -> myproject.customers.GetAllConnectedusersResponse
+	7, // [7:12] is the sub-list for method output_type
+	2, // [2:7] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
 	2, // [2:2] is the sub-list for extension extendee
 	0, // [0:2] is the sub-list for field type_name
@@ -435,7 +485,7 @@ func file_chatroom_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_chatroom_proto_rawDesc), len(file_chatroom_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
